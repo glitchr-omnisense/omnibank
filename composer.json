@@ -1,5 +1,5 @@
 {
-    "name": "glitchr/omnibank",
+    "name": "omniscient/omnibank",
     "type": "library",
     "description": "Omnibank: one contract for bank access - accounts, balances, transactions, transfers, consents and webhooks - over statement files and bank APIs, and its Symfony bundle (Omnitrade's sibling for banking).",
     "keywords": [
@@ -28,6 +28,9 @@
         "symfony/dependency-injection": "^6.4|^7.0|^8.0",
         "symfony/http-client": "^6.4|^7.0|^8.0",
         "symfony/http-kernel": "^6.4|^7.0|^8.0"
+    },
+    "replace": {
+        "glitchr/omnibank": "self.version"
     },
     "suggest": {
         "omnibank/files": "Statement files: CAMT.053, OFX, CSV read; SEPA credit transfers written as pain.001",
