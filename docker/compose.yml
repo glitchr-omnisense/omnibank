@@ -1,4 +1,4 @@
-# omniscient/omnibank with every provider package, your sandbox keys in .env:
+# omnisense/omnibank with every provider package, your sandbox keys in .env:
 #
 #   cp .env.dist .env                                          # fill in the keys at hand
 #   docker compose run --rm omnibank gateways                  # which providers are installed and configured
@@ -19,7 +19,7 @@ name: omnibank
 services:
   omnibank:
     build: .
-    image: omniscient/omnibank-harness
+    image: omnisense/omnibank-harness
     env_file:
       - path: .env
         required: false

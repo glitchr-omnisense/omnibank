@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Every provider package: its slug (omnibank/<slug>, github.com/glitchr-studio/omnibank-<slug>),
+ * Every provider package: its slug (omnibank/<slug>, github.com/glitchr-omnisense/omnibank-<slug>),
  * its tests' namespace and its factory class.
  */
 return [

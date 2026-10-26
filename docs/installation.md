@@ -1,7 +1,7 @@
 # Installation and first calls
 
 ```sh
-composer require omniscient/omnibank omnibank/files                 # statement files: no network
+composer require omnisense/omnibank omnibank/files                 # statement files: no network
 composer require omnibank/qonto omnibank/powens omnibank/bridge  # a bank's API, an aggregator
 ```
 
@@ -60,7 +60,7 @@ booked 11219.54 EUR on 2026-09-05
 2026-09-05    -45.90  PRLV SEPA EDF CLIENT 12345
 ```
 
-(run on 2026-10-05 in an empty directory, after `composer require omniscient/omnibank omnibank/files`:
+(run on 2026-10-05 in an empty directory, after `composer require omnisense/omnibank omnibank/files`:
 three packages installed, `symfony/http-client-contracts` the only one that is not Omnibank's; the
 account, the names and the amounts are made up)
 

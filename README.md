@@ -1,11 +1,11 @@
-# omniscient/omnibank
+# omnisense/omnibank
 
 One contract for bank access - accounts, balances, transactions, transfers - over statement
 files, a bank's own API or an aggregator: the Omnitrade of banking.
 
-Published as `omniscient/omnibank` (formerly `glitchr/omnibank`, which this package replaces: a
+Published as `omnisense/omnibank` (formerly `glitchr/omnibank`, which this package replaces: a
 `composer.json` that still requires the old name keeps resolving to this package and never installs
-both). `omniscient/` is the vendor of every family's core, the providers keep `omnibank/`, the
+both). `omnisense/` is the vendor of every family's core, the providers keep `omnibank/`, the
 namespace `Omnibank\` and the GitHub repositories do not change.
 
 ```php
@@ -38,7 +38,7 @@ the requests and a bridge for Symfony. It needs no framework: it requires nothin
 ## Plain PHP
 
 ```sh
-composer require omniscient/omnibank omnibank/files
+composer require omnisense/omnibank omnibank/files
 ```
 
 ```php
@@ -142,7 +142,7 @@ docker compose run --rm omnibank test                                 # every pa
 
 ## Responsibility
 
-`omniscient/omnibank` and its `omnibank/*` providers are independent, unofficial clients: none is
+`omnisense/omnibank` and its `omnibank/*` providers are independent, unofficial clients: none is
 affiliated with, endorsed by or sponsored by the services it reaches. Each service keeps its own
 terms (accounts and contracts, keys, rate limits, what may be done with the banking data they
 return), named with a link in the "Responsibility" section of the README of each provider that
