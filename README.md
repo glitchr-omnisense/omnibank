@@ -136,9 +136,17 @@ docker compose run --rm omnibank test                                 # every pa
 
 ## Documentation
 
+- [Overview: providers and capabilities](docs/index.md)
 - [Installation and first calls](docs/installation.md): plain PHP first
-- [Symfony](docs/symfony.md)
+- [Symfony](docs/symfony.md) and [Laravel](docs/laravel.md)
+- [Concepts: gateways, requests, every model](docs/concepts.md)
+- [Connecting and consent](docs/usage-connecting.md), [accounts, balances and transactions](docs/usage-reading.md), [transfers](docs/usage-transfers.md), [webhooks](docs/usage-webhooks.md)
+- [Configuration reference](docs/configuration.md)
+- [Errors](docs/errors.md)
+- [Testing](docs/testing.md)
 - [The Docker harness](docs/harness.md)
+- [Writing a provider](docs/providers.md)
+- [Verified, and not](docs/verified.md)
 
 ## Responsibility
 

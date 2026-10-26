@@ -1,3 +1,8 @@
+---
+title: Installation
+order: 10
+---
+
 # Installation and first calls
 
 ```sh
@@ -5,7 +10,15 @@ composer require omnisense/omnibank omnibank/files                 # statement f
 composer require omnibank/qonto omnibank/powens omnibank/bridge  # a bank's API, an aggregator
 ```
 
-PHP 8.2 or later.
+## Requirements
+
+- PHP 8.2 or later.
+- `omnisense/omnibank` requires `symfony/http-client-contracts` (^3.0) and nothing else.
+- `omnibank/qonto`, `omnibank/powens` and `omnibank/bridge` require `symfony/http-client` (^6.4,
+  ^7.0 or ^8.0).
+- `omnibank/files` requires the `dom` and `libxml` extensions (in most PHP builds); `intl` is
+  suggested (names put in the SEPA character set; `iconv` otherwise) and `iconv` (Windows-1252
+  exports read as UTF-8).
 
 Omnibank needs no framework. The core requires nothing but `symfony/http-client-contracts`; a
 provider that calls an API requires `symfony/http-client`, a library that stands alone;
@@ -60,9 +73,10 @@ booked 11219.54 EUR on 2026-09-05
 2026-09-05    -45.90  PRLV SEPA EDF CLIENT 12345
 ```
 
-(run on 2026-10-05 in an empty directory, after `composer require omnisense/omnibank omnibank/files`:
-three packages installed, `symfony/http-client-contracts` the only one that is not Omnibank's; the
-account, the names and the amounts are made up)
+(run on 2026-10-05 in an empty directory, after `composer require omnibank/files` and the core:
+three packages installed, `symfony/http-client-contracts` the only one that is not Omnibank's; run
+again on 2026-10-26 with PHP 8.4.27 on the family's checkouts, the same output; the account, the
+names and the amounts are made up)
 
 No key, no network: the statement travels in the connection. That is all there is to it:
 
@@ -140,6 +154,8 @@ not do is a `RequestNotSupportedException`.
   each gateway injectable by its name: see [Symfony](symfony.md). Its components
   (`symfony/config`, `symfony/dependency-injection`, `symfony/http-kernel`) are not required by
   this package: a Symfony application has them.
+- **Laravel**: no bridge package exists; a service provider builds the registry once:
+  [Laravel](laravel.md).
 - **Any other**: build the `Registry` once, where the framework builds its services (a service
   provider, a container definition), as the script above does.
 
@@ -153,4 +169,5 @@ not do is a `RequestNotSupportedException`.
 | `InvalidNotificationException` | a webhook whose signature does not hold |
 | `UnavailableException` | the provider could not be reached or failed (network, timeout, 5xx, 429): **never "no data"** |
 
-All implement `Omnibank\Exception\OmnibankException`.
+All implement `Omnibank\Exception\OmnibankException`; [Errors](errors.md) has each one's parent and
+where it is thrown.

@@ -1,3 +1,8 @@
+---
+title: The Docker harness
+order: 70
+---
+
 # The Docker harness
 
 `docker/` runs this package with every `omnibank/*` provider installed - from GitHub (branch 1.x),
@@ -69,5 +74,39 @@ the IBANs, the names and the amounts are made up. `bare --recorded --json` print
 every class and file loaded, without a call: `Tests/BareTest.php` runs it in a process of its own
 and checks the list.
 
-The image is `php:8.4-cli-alpine` with Composer; the harness's packages live in the `harness`
-volume of the `omnibank` project.
+(the same output on 2026-10-26, run with PHP 8.4.27 on the workspace's checkouts and no network)
+
+## Environment
+
+`docker/.env` (a copy of `.env.dist`, git-ignored) holds the keys; a gateway is configured once
+every key of its `needs` (in `docker/harness/config/gateways.php`) is set, and `gateways` lists the
+others as "needs ...".
+
+| Variable | Gateway | |
+|---|---|---|
+| `OMNIBANK_PLUGINS` | - | the providers' checkouts (`../..` in the workspace); unset, they are cloned from GitHub, branch 1.x |
+| `HARNESS_RETURN_URL` | powens, bridge | the return URL (`redirect_uri`, `callback_url`); `https://example.org/bank/back` by default |
+| `FILES_DEBTOR_NAME`, `FILES_DEBTOR_BIC` | files | `debtor_name`, `debtor_bic` |
+| `QONTO_LOGIN`, `QONTO_SECRET_KEY` (needed), `QONTO_SANDBOX` (`1` for the sandbox), `QONTO_STAGING_TOKEN` | qonto | |
+| `POWENS_DOMAIN`, `POWENS_CLIENT_ID`, `POWENS_CLIENT_SECRET` (needed), `POWENS_WEBHOOK_SECRET`, `POWENS_WEBHOOK_URL`, `POWENS_LANGUAGE` | powens | |
+| `BRIDGE_CLIENT_ID`, `BRIDGE_CLIENT_SECRET` (needed), `BRIDGE_VERSION`, `BRIDGE_WEBHOOK_SECRET`, `BRIDGE_USER_EMAIL` | bridge | |
+
+The console's errors: an `InvalidConfigException` exits 2 (`INVALID`), another `OmnibankException`
+1, each with its message.
+
+## What the entrypoint does
+
+`docker/entrypoint.sh` runs `docker/harness/setup.php`, which writes `/harness/composer.json` and
+`/harness/phpunit.xml`: this core from its checkout (a path repository), each provider of
+`docker/harness/plugins.php` from its checkout under `/omnibank/plugins/<slug>` when its
+`composer.json` names `omnibank/<slug>`, from `https://github.com/glitchr-omnisense/omnibank-<slug>.git`
+otherwise, with `symfony/console`, `symfony/http-client`, `symfony/var-dumper`, and PHPUnit 11 and
+Symfony's config, dependency-injection and http-kernel for the tests; one PHPUnit suite per
+package. Composer installs when there is no `vendor/` and updates when `composer.json` is newer
+than its lock. Then: `test [arguments]` (PHPUnit), `bare [...]`, `composer ...`, `sh`, `php ...` as
+they are, anything else the console (`docker/harness/bin/omnibank`).
+
+The image (`omnisense/omnibank-harness`) is `php:8.4-cli-alpine` with the `bcmath`, `intl` and
+`zip` extensions and Composer; its default command is `gateways`; the harness's
+packages, Composer's cache and the kept connections live in the `harness` volume of the `omnibank`
+project (`docker compose down -v` removes it).

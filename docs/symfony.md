@@ -1,3 +1,8 @@
+---
+title: Symfony
+order: 15
+---
+
 # Symfony
 
 Omnibank runs without a framework ([installation](installation.md)); in a Symfony application its
@@ -30,7 +35,60 @@ QONTO_LOGIN=...
 QONTO_SECRET_KEY=...
 ```
 
-Every `omnibank/*` package installed registers its factory, on the application's `http_client`.
+## The configuration tree
+
+As the bundle's `configure()` declares it (dumped with Symfony's `YamlReferenceDumper`, the dumper
+`config:dump-reference omnibank` uses):
+
+```yaml
+omnibank:
+
+    # The application's bank accesses, by name: a factory (files, qonto, powens, bridge...) and its options.
+    gateways:
+
+        # Prototype
+        name:
+            factory:              ~ # Required
+            options:              []
+```
+
+| Key | Type | Default | |
+|---|---|---|---|
+| `gateways.<name>.factory` | string | required | a factory's name: `files`, `qonto`, `powens`, `bridge`, or an application factory's `getName()` |
+| `gateways.<name>.options` | any | `[]` | handed whole to the factory's `create()`; each provider's options are in [Configuration](configuration.md) |
+
+## What the bundle registers
+
+Every `omnibank/*` package installed registers its factory, on the application's `http_client`
+(`service('http_client')->nullOnInvalid()`: without FrameworkBundle's HTTP client the factory gets
+none and makes its own with `HttpClient::create()`).
+
+| Service | | |
+|---|---|---|
+| `Omnibank\Files\FilesGatewayFactory`, `Omnibank\Qonto\QontoGatewayFactory`, `Omnibank\Powens\PowensGatewayFactory`, `Omnibank\Bridge\BridgeGatewayFactory` | private, tagged `omnibank.gateway_factory` | each when its package is installed |
+| `Omnibank\Registry` | public | every service tagged `omnibank.gateway_factory`, the configured `gateways` |
+| `omnibank.gateway.<name>` | private | `Registry::get('<name>')`, autowired as `GatewayInterface $<name>` |
+
+Any service of the application implementing `Omnibank\GatewayFactoryInterface` is tagged
+`omnibank.gateway_factory` by autoconfiguration. The bundle defines no command, event or Twig
+function.
+
+The services compiled for one gateway `statements` (`factory: files`), with the four providers
+installed, and the gateway an argument `GatewayInterface $statements` receives:
+
+```
+Omnibank\Bridge\BridgeGatewayFactory
+Omnibank\Files\FilesGatewayFactory
+Omnibank\Powens\PowensGatewayFactory
+Omnibank\Qonto\QontoGatewayFactory
+Omnibank\Registry
+Omnibank\Gateway files
+files, qonto, powens, bridge
+```
+
+(run on 2026-10-26, Symfony 8 DependencyInjection, the family's checkouts; the last two lines are
+the injected gateway's class and name, then `Registry::factories()`)
+
 What is autowired:
 
 | Service | |
