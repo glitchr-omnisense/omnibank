@@ -64,6 +64,17 @@ The provider could not be reached or failed on its side: a transport error of th
 (network, DNS, timeout), an HTTP 5xx, a 429, or a body that is not JSON. **Nothing is known**: it
 is never "no accounts" nor "no transactions". Keep what was read before and try again later.
 
+## No secret in a failure
+
+What a provider throws keeps the request's secrets out, for a log that writes the whole chain,
+arguments included (`zend.exception_ignore_args` off). The HTTP client's message quotes the URL
+called: in the `UnavailableException`'s message its key parameters, a password in its user part and every secret
+of the request (a key, a password, a bearer or basic credential) are masked as `***`
+(`Omnibank\Http\Redaction::text()`). The previous exception is a copy of the client's
+(`Redaction::copy()`: the same class and code, that message, its own previous copied the same
+way, without the response or request a client's exception holds), and no trace of the chain keeps
+its arguments, where the options, headers and body stood (`Redaction::withoutArguments()`).
+
 ## `InvalidNotificationException`
 
 A webhook whose signature does not hold, that carries none, or that cannot be checked (no
