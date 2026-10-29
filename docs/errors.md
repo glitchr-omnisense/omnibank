@@ -75,7 +75,8 @@ of the request (a key, a password, a bearer or basic credential) are masked as `
 way, without the response or request a client's exception holds), and no trace of the chain keeps
 its arguments, where the options, headers and body stood (`Redaction::withoutArguments()`). A
 `GatewayFactory::create()` that fails (a missing option) throws without arguments in its trace
-either: they held the options, credentials included.
+either: they held the options, credentials included. Nor does any failure of an action
+leaving `Gateway::execute()`: the request held the connection, its tokens with it.
 
 ## `InvalidNotificationException`
 

@@ -5,6 +5,7 @@ namespace Omnibank;
 use Omnibank\Action\ActionInterface;
 use Omnibank\Exception\ProviderException;
 use Omnibank\Exception\RequestNotSupportedException;
+use Omnibank\Http\Redaction;
 use Omnibank\Model\Account;
 use Omnibank\Model\ConnectResult;
 use Omnibank\Model\Connection;
@@ -50,16 +51,21 @@ final class Gateway implements GatewayInterface
     {
         foreach ($this->actions as $action) {
             if ($action->supports($request)) {
-                $action->execute($request);
+                try {
+                    $action->execute($request);
+                } catch (\Throwable $e) {
+                    // The request holds the connection, its tokens with it: no trace of the failure keeps it in its arguments.
+                    throw Redaction::withoutArguments($e);
+                }
                 if (!$request->isAnswered()) {
-                    throw new ProviderException($this->name, \sprintf('%s left the request unanswered.', $action::class));
+                    throw Redaction::withoutArguments(new ProviderException($this->name, \sprintf('%s left the request unanswered.', $action::class)));
                 }
 
                 return $request;
             }
         }
 
-        throw RequestNotSupportedException::for($request, $this->name);
+        throw Redaction::withoutArguments(RequestNotSupportedException::for($request, $this->name));
     }
 
     public function connect(Connection $connection, string $returnUrl): ConnectResult

@@ -12,6 +12,9 @@
 
 ### Fixed
 
+- `Gateway::execute()` throws what an action throws without arguments in its trace: with
+  `zend.exception_ignore_args` off, each frame kept the request, and the request the connection
+  with its tokens (Powens' `auth_token`, Bridge's `access_token`).
 - `GatewayFactory::create()` throws what fails without arguments in its trace: with
   `zend.exception_ignore_args` off, an `InvalidConfigException` (a missing option) kept the
   options given, credentials included, in the arguments of `create()`.

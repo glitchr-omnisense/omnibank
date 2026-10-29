@@ -2,8 +2,12 @@
 
 namespace Omnibank\Tests\Http;
 
+use Omnibank\Action\ActionInterface;
 use Omnibank\Exception\InvalidConfigException;
+use Omnibank\Gateway;
 use Omnibank\Http\Redaction;
+use Omnibank\Model\Connection;
+use Omnibank\Request\Request;
 use Omnibank\Tests\StubFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -81,6 +85,30 @@ final class RedactionTest extends TestCase
             self::assertNotEmpty($e->getTrace());
             self::assertStringNotContainsString('factory-secret-864209', print_r($e->getTrace(), true));
             self::assertStringNotContainsString('factory-secret-864209', $e->getTraceAsString());
+        }
+    }
+
+    public function testAnActionThatFailsKeepsNoConnectionInItsTrace(): void
+    {
+        $gateway = new Gateway('stub', 'Stub', [new class implements ActionInterface {
+            public function supports(Request $request): bool
+            {
+                return true;
+            }
+
+            public function execute(Request $request): void
+            {
+                throw new \RuntimeException('The provider failed.');
+            }
+        }]);
+
+        try {
+            $gateway->accounts(new Connection(['access_token' => 'connection-token-517320']));
+            self::fail('no exception');
+        } catch (\RuntimeException $e) {
+            self::assertNotEmpty($e->getTrace());
+            self::assertStringNotContainsString('connection-token-517320', print_r($e->getTrace(), true));
+            self::assertStringNotContainsString('connection-token-517320', $e->getTraceAsString());
         }
     }
 
