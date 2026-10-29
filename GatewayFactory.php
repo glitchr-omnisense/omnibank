@@ -4,6 +4,7 @@ namespace Omnibank;
 
 use Omnibank\Action\ActionInterface;
 use Omnibank\Action\ApiAwareInterface;
+use Omnibank\Http\Redaction;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -25,32 +26,37 @@ abstract class GatewayFactory implements GatewayFactoryInterface
 
     public function create(array $options = []): GatewayInterface
     {
-        $config = $this->createConfig($options);
-        $config->validateNotEmpty($config->get('omnibank.required_options', []));
+        try {
+            $config = $this->createConfig($options);
+            $config->validateNotEmpty($config->get('omnibank.required_options', []));
 
-        $api = $config->get('omnibank.api');
-        if ($api instanceof \Closure) {
-            $api = $api($config);
+            $api = $config->get('omnibank.api');
+            if ($api instanceof \Closure) {
+                $api = $api($config);
+            }
+
+            $actions = [];
+            foreach ($config as $key => $action) {
+                if (!str_starts_with((string) $key, 'omnibank.action.')) {
+                    continue;
+                }
+                if ($action instanceof \Closure) {
+                    $action = $action($config);
+                }
+                if (!$action instanceof ActionInterface) {
+                    continue;
+                }
+                if ($action instanceof ApiAwareInterface && null !== $api) {
+                    $action->setApi($api);
+                }
+                $actions[] = $action;
+            }
+
+            return new Gateway($config['omnibank.factory_name'], $config['omnibank.factory_title'], $actions);
+        } catch (\Throwable $e) {
+            // The options hold the credentials: no trace of the failure keeps them in its arguments.
+            throw Redaction::withoutArguments($e);
         }
-
-        $actions = [];
-        foreach ($config as $key => $action) {
-            if (!str_starts_with((string) $key, 'omnibank.action.')) {
-                continue;
-            }
-            if ($action instanceof \Closure) {
-                $action = $action($config);
-            }
-            if (!$action instanceof ActionInterface) {
-                continue;
-            }
-            if ($action instanceof ApiAwareInterface && null !== $api) {
-                $action->setApi($api);
-            }
-            $actions[] = $action;
-        }
-
-        return new Gateway($config['omnibank.factory_name'], $config['omnibank.factory_title'], $actions);
     }
 
     public function createConfig(array $options = []): Config

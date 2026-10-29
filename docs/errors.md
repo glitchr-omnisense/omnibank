@@ -73,7 +73,9 @@ of the request (a key, a password, a bearer or basic credential) are masked as `
 (`Omnibank\Http\Redaction::text()`). The previous exception is a copy of the client's
 (`Redaction::copy()`: the same class and code, that message, its own previous copied the same
 way, without the response or request a client's exception holds), and no trace of the chain keeps
-its arguments, where the options, headers and body stood (`Redaction::withoutArguments()`).
+its arguments, where the options, headers and body stood (`Redaction::withoutArguments()`). A
+`GatewayFactory::create()` that fails (a missing option) throws without arguments in its trace
+either: they held the options, credentials included.
 
 ## `InvalidNotificationException`
 
