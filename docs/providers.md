@@ -95,6 +95,12 @@ made without the constructor, whose properties are not set.
 - **Stable ids.** The service's id, or a fingerprint of the line (`Omnibank\Files\Fingerprints` is
   one way).
 - **`raw` keeps the service's whole answer** for the account and each line.
+- **The service's words, mapped.** An account's type onto `AccountKind` (`Account::$kind`, the word
+  kept in `$type`), a line's category or operation type onto `TransactionCategory`, the
+  connection's states onto `ConnectionState` (`Notification::$state`, `Account::$state` when the
+  service says it with the account, `ProviderException::$connectionState` when an error code is
+  one), each from the service's published documentation, as public constants a test runs through.
+  A word not in the table is `UNKNOWN` (no category at all is null), never an exception.
 - **Errors.** A 4xx is a `ProviderException` (the service's message, its code as `providerCode`); a
   transport error, a 5xx, a 429 or a body that is not JSON is an `UnavailableException`, never an
   empty list; a missing option an `InvalidConfigException` (`omnibank.required_options`).

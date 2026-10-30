@@ -137,6 +137,8 @@ account.
 | `currency` | string | ISO 4217 |
 | `type` | ?string | the provider's word: `checking`, `savings`, `card`, `external`... |
 | `raw` | array | the provider's whole answer, for what the model leaves out |
+| `kind` | `AccountKind` | what the account is, the provider's word mapped (`UNKNOWN` by default and for a word the mapping does not know) |
+| `state` | ?`ConnectionState` | how the provider's access to it is doing, when the provider says it with the account (Powens' `error`); null otherwise |
 
 ### `Balance`
 
@@ -156,8 +158,46 @@ and each provider's own (`opening`, `instant`, `interim_booked`... - see the pro
 | `counterpartyName`, `counterpartyIban` | ?string | |
 | `reference` | ?string | what the payer wrote (remittance information), or an end-to-end id |
 | `raw` | array | the provider's line, whole |
+| `category` | ?`TransactionCategory` | what it was for, when the provider categorises it; null otherwise |
 
 `isDebit()` is `amount->isNegative()`.
+
+### `AccountKind`, `TransactionCategory`, `ConnectionState`
+
+The words a dashboard needs, the same for every gateway. Each provider maps its own words onto them
+from its published documentation (each provider's page lists its table); a word the mapping does
+not know is `UNKNOWN`, never an error, and the provider's word stays (`Account::$type`, `raw`).
+Each enum's `of(?string)` reads a value stored earlier.
+
+| `AccountKind` | `group()` | |
+|---|---|---|
+| `CHECKING`, `CARD` | `cash` | a current account; a deferred card's outstanding |
+| `SAVINGS`, `TERM_DEPOSIT` | `savings` | livret A, LDDS...; a compte à terme |
+| `MARKET`, `LIFE_INSURANCE`, `SAVINGS_PLAN`, `RETIREMENT`, `OTHER_INVESTMENT` | `investment` | compte-titres; assurance vie; PEA, PEE, PEL, CEL; PER, PERCO, PERP, Madelin; real estate, crowdlending |
+| `LOAN`, `CONSUMER_CREDIT`, `REVOLVING` | `credit` | `isLiability()` is true: its balance counts against a total |
+| `UNKNOWN` | `unknown` | |
+
+`TransactionCategory`: `INCOME`, `HOUSING`, `HOUSEHOLD`, `FOOD`, `TRANSPORT`, `SHOPPING`, `HEALTH`,
+`LEISURE`, `SUBSCRIPTIONS`, `INSURANCE`, `TAXES`, `BANK_FEES`, `LOAN`, `SAVINGS`, `BUSINESS`,
+`TRANSFER`, `CASH`, `OTHER` (the provider's own "other") and `UNKNOWN`. A provider that categorises
+gives its category; one that does not may still say what a line is from its operation type (a
+transfer, a withdrawal, a fee) - a card payment or a direct debit says nothing of what it paid
+and stays uncategorised (null).
+
+`ConnectionState` sits beside the consent: the consent says whether the user allowed the access,
+the state whether the last synchronisation went through.
+
+| `ConnectionState` | `group()` | |
+|---|---|---|
+| `OK`, `PENDING` | `ok` | synchronised; just added or being validated |
+| `ACTION_NEEDED`, `WRONG_CREDENTIALS` | `action` | `needsUser()`: strong authentication, terms to accept, a password to renew; credentials refused |
+| `BANK_UNAVAILABLE` | `unavailable` | the bank's site or API is down or limits the calls; the provider retries |
+| `BUG`, `UNKNOWN` | `error` | an error on the provider's side, an account it cannot read; a word not mapped |
+
+`ConnectionState::ofFailure(Throwable)` reads a failure: the state a `ProviderException` carries
+(`connectionState`, set when the provider's error code is one of its connection states), else
+`BANK_UNAVAILABLE` for an `UnavailableException`, else `BUG` - through the chain of previous
+exceptions.
 
 ### `Connection`, `Consent`, `ConsentStatus`
 
@@ -207,4 +247,5 @@ to upload, or the provider's word), `file` and `fileName` (?string: the pain.001
 `type` (the provider's name for the event: `CONNECTION_SYNCED`, `item.refreshed`...),
 `connectionId` (?string: the provider's connection, a Powens connection or a Bridge item),
 `consent` (`Consent`: what the event means for the user's consent; `NONE` when it says nothing of
-it), `raw` (the event, decoded).
+it), `raw` (the event, decoded), `state` (?`ConnectionState`: how the connection is doing, when the
+event says; null otherwise).

@@ -14,9 +14,11 @@ Omnibank\Exception\OmnibankException (an interface, \Throwable)
     └── UnavailableException                                     the provider could not be reached or failed
 ```
 
-`catch (OmnibankException $e)` catches all of them. `ProviderException` has two public readonly
-properties: `provider` (the factory's name) and `providerCode` (the provider's own error code, or
-the HTTP status, when there was one); its message starts with `[<provider>] `.
+`catch (OmnibankException $e)` catches all of them. `ProviderException` has three public readonly
+properties: `provider` (the factory's name), `providerCode` (the provider's own error code, or the
+HTTP status, when there was one) and `connectionState` (?`ConnectionState`: what the refusal says of
+the access - Powens' `wrongpass`, Qonto's 401 -, null when the code says nothing of it); its message
+starts with `[<provider>] `. `ConnectionState::ofFailure($e)` reads any failure as a state.
 
 ## `InvalidConfigException`
 
