@@ -85,6 +85,32 @@ Omnibank\Exception\InvalidNotificationException: [bridge] The notification is un
 (run on 2026-10-26, PHP 8.4.27, no network; the bodies follow each provider's documentation, the
 secrets are made up)
 
+## Registering the webhook from the application
+
+The cores carry an optional capability for it: a gateway that supports `RegisterWebhook`
+registers the application's endpoint at the aggregator and answers the signing secret it made, so
+that nobody copies one from a console. Registering an address already registered replaces it
+(the former one is deleted, a new one made with a new secret). `FetchWebhooks` lists them without
+their secrets, `DeleteWebhook($id)` removes one. `Http\PublicUrl::unreachable($url)` says why an
+address cannot be reached (localhost, `*.local`, `*.test`, a private IP, plain HTTP) before
+asking. The stored secret is read at `notify()` time with `Registry::create($name,
+['webhook_secret' => $sealed])`; a configured secret still wins.
+
+```php
+use Omnibank\Request\RegisterWebhook;
+
+if ($gateway->supports(RegisterWebhook::class)) {
+    $gateway->execute($request = new RegisterWebhook('https://books.example.org/bank/webhook'));
+    $secret = $request->getWebhook()->secret;   // seal it; never log it
+}
+```
+
+**No provider supports it today.** Powens documents no API to register a webhook: its
+configuration routes (`/2.0/config`, `/2.0/clients`) take a *config token* "only available in the
+Settings section of the console", and its webhooks are set in that console. Bridge documents
+webhooks in its dashboard only. Both answer `supports(RegisterWebhook::class)` false; their
+webhooks stay optional (the scheduled sync catches up).
+
 ## What each provider reads
 
 | | Powens | Bridge |

@@ -10,6 +10,13 @@
 
 ### Added
 
+- Registering the webhook from the application, an optional capability (no change to
+  `GatewayInterface`): `Request\RegisterWebhook` (URL, events; registering an address again
+  replaces it), answered by a `Model\Webhook` (provider id, URL, events, and the signing secret,
+  given at creation only), `Request\FetchWebhooks`, `Request\DeleteWebhook`. `Http\PublicUrl::unreachable()`
+  says why an address no provider can reach (localhost, `*.local`, `*.test`, private IP, HTTP)
+  is refused. No provider supports it yet: Powens and Bridge document no API for it
+  (`docs/usage-webhooks.md`).
 - The words a dashboard needs, the same for every gateway: `Model\AccountKind` (checking, savings,
   term deposit, card, loan, consumer credit, revolving, market, life insurance, savings plan,
   retirement, other investment, unknown; `group()`, `isLiability()`) on `Account::$kind`,
