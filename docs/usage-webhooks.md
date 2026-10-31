@@ -11,6 +11,13 @@ user must act. `notify($body, $headers)` checks the call's signature and reads i
 implies. Powens and Bridge support it; files and Qonto have no webhooks
 (`RequestNotSupportedException`).
 
+**Webhooks are optional.** Everything a webhook says, the application can read on its own:
+schedule the read (`accounts()`, `balances()`, `transactions()` on each connection - omnibase/ledger's
+`ledger:bank:sync`, every hour) and the books are up to date without any webhook. The webhook only
+brings the news sooner. A development machine, which no aggregator can reach, needs no tunnel and
+no webhook registered: leave `webhook_secret` empty there, and never register a `localhost` URL
+at the provider (it calls it, fails, and mails an alert at each try).
+
 ```php
 #[Route('/bank/webhook', methods: ['POST'])]
 public function __invoke(Request $request, GatewayInterface $banks): Response
