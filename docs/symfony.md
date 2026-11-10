@@ -76,7 +76,8 @@ The bundle is the only class of the core that needs Symfony: `symfony/http-kerne
 
 Every `omnibank/*` package installed registers its factory, on the application's `http_client`
 (`service('http_client')->nullOnInvalid()`: without FrameworkBundle's HTTP client the factory gets
-none and makes its own with `HttpClient::create()`).
+none and makes its own with `HttpClient::create()`), kept with its retries off (omnisense/contracts'
+`Http\NoRetry`: `retry_failed` never sends a write twice).
 
 | Service | | |
 |---|---|---|

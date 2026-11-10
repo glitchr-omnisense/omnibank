@@ -7,6 +7,7 @@ use Omnibank\Action\ApiAwareInterface;
 use Omnibank\Exception\UsageLimitReachedException;
 use Omnibank\Http\Redaction;
 use Omnisense\Contracts\Policy\UsagePolicy;
+use Omnisense\Contracts\Http\NoRetry;
 use Omnisense\Contracts\Provider\Config as BaseConfig;
 use Omnisense\Contracts\Provider\ProviderFactory;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -25,12 +26,18 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * registry's limiter), which the API observes on every answer
  * (Http\Throttle); guard() gives the gateway's PolicyGuard, its declared
  * policy tightened by the "policy" option and checked against "usage"
- * (Registry::guarded() puts the gateway behind it).
+ * (Registry::guarded() puts the gateway behind it). The HTTP client given
+ * is kept with its retries off (omnisense/contracts' Http\NoRetry): Symfony's
+ * RetryableHttpClient never creates a user or a connect session twice.
  */
 abstract class GatewayFactory extends ProviderFactory implements GatewayFactoryInterface
 {
-    public function __construct(protected readonly ?HttpClientInterface $http = null)
+    protected readonly ?HttpClientInterface $http;
+
+    public function __construct(?HttpClientInterface $http = null)
     {
+        // Http\NoRetry came with omnisense/contracts 1568f2c: a site whose vendor holds an older one keeps its client as given.
+        $this->http = null !== $http && class_exists(NoRetry::class) ? NoRetry::of($http) : $http;
     }
 
     public function create(array $options = []): GatewayInterface

@@ -29,6 +29,8 @@ use Omnisense\Contracts\Policy\InvalidPolicyException;
 use Omnisense\Contracts\Policy\UsagePolicy;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Retry\GenericRetryStrategy;
+use Symfony\Component\HttpClient\RetryableHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -144,6 +146,29 @@ final class PolicyTest extends TestCase
         self::assertCount(1, $this->sent, 'the held call was not sent');
     }
 
+    /**
+     * The application's http_client with retry_failed on: Symfony's RetryableHttpClient would
+     * create the user again on a 503. The factory keeps its retries off: sent once.
+     */
+    public function testAWriteAnswered503IsSentOnceThroughARetryingClient(): void
+    {
+        $this->answers = [new MockResponse('{"error":"unavailable"}', ['http_code' => 503]), self::created()];
+        $retrying = new RetryableHttpClient($this->http(), new GenericRetryStrategy(GenericRetryStrategy::DEFAULT_RETRY_STATUS_CODES, 0), 3);
+        $gateway = (new PoliciedFactory($retrying))->create(['token' => 't']);
+
+        $gateway->connect(new Connection(), 'https://app.example/back');
+        self::assertSame(['POST https://bank.example/users'], $this->sent, 'the 503 was not retried by the client');
+        self::assertCount(1, $this->answers, 'the second answer was never asked for');
+    }
+
+    public function testAMockHttpClientIsKeptAsGiven(): void
+    {
+        $mock = new MockHttpClient([self::accounts()]);
+        $this->registryOver($mock)->get('bank')->accounts(self::connection('u1'));
+
+        self::assertSame(1, $mock->getRequestsCount());
+    }
+
     public function testAWebhookIsNeverHeldByTheGuard(): void
     {
         $registry = $this->registry(['rateLimits' => [['max' => 1, 'window' => 'minute', 'operations' => ['notify']]]]);
@@ -165,6 +190,11 @@ final class PolicyTest extends TestCase
     private function registry(array $policy = [], ?InMemoryRateLimiter $limiter = null): Registry
     {
         return new Registry([new PoliciedFactory($this->http())], ['bank' => ['factory' => 'policied', 'options' => ['token' => 't'], 'policy' => $policy]], $limiter);
+    }
+
+    private function registryOver(HttpClientInterface $http): Registry
+    {
+        return new Registry([new PoliciedFactory($http)], ['bank' => ['factory' => 'policied', 'options' => ['token' => 't']]]);
     }
 
     private function http(): HttpClientInterface

@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- Writes sent once: the HTTP client a factory is given keeps its retries off (omnisense/contracts'
+  `Http\NoRetry`, which omnisense/contracts 1568f2c brings; with an older kernel the client is kept
+  as given), so Symfony's `RetryableHttpClient` (`framework.http_client`'s `retry_failed`) never
+  creates a Powens user or a Bridge connect session twice. A `MockHttpClient` is kept as given.
+  docs/policies.md.
+
 ### Changed
 
 - omnisense/omnibank is built on omnisense/contracts, the kernel of the omni families; the public

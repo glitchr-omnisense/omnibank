@@ -94,6 +94,12 @@ asks for:
   - Qonto: read only in this version.
   - Files: a transfer is a pain.001 file, never sent by Omnibank. Each `transfer()` writes a new
     message id: give each transfer its `endToEndId` and upload one file once.
+- **Nor the HTTP client.** The client a factory is given (the bundle's `http_client`) is kept with
+  its retries off (omnisense/contracts' `Http\NoRetry`): Symfony's `RetryableHttpClient`
+  (`framework.http_client`'s `retry_failed`) would create a Powens user or a Bridge session again
+  on a 429, 502 or 503, and resend reads that a provider counts. A test client (`MockHttpClient`)
+  is kept as given. It needs omnisense/contracts 1568f2c or later; with an older one the client is
+  kept as given.
 
 ```php
 try {

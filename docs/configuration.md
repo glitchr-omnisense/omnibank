@@ -85,4 +85,5 @@ The files themselves travel in the connection: `state.statements`, a list of
 
 The API clients set their own timeouts per request: Qonto 20 seconds, Powens and Bridge 30. They
 are constructor arguments of each `Api` class, not options of the factories. The HTTP client given
-to the factory brings everything else (proxy, retries, a `MockHttpClient` in tests).
+to the factory brings everything else (proxy, a `MockHttpClient` in tests); its retries are turned off (omnisense/contracts'
+`Http\NoRetry`, see [policies](policies.md)).
