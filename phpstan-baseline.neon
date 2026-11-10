@@ -1,0 +1,331 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to function is_subclass_of\(\) with ''Omnibank\\\\Bridge\\\\BridgeGatewayFactory''\|''Omnibank\\\\Files\\\\FilesGatewayFactory''\|''Omnibank\\\\Powens\\\\PowensGatewayFactory''\|''Omnibank\\\\Qonto\\\\QontoGatewayFactory'' and ''Omnibank\\\\GatewayFactoryInterface'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: Bridge/Symfony/OmnibankBundle.php
+
+		-
+			message: '#^Method Omnibank\\Gateway\:\:connect\(\) should return Omnibank\\Model\\ConnectResult but returns Omnibank\\Model\\ConnectResult\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: Gateway.php
+
+		-
+			message: '#^Method Omnibank\\Gateway\:\:notify\(\) should return Omnibank\\Model\\Notification but returns Omnibank\\Model\\Notification\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: Gateway.php
+
+		-
+			message: '#^Method Omnibank\\Gateway\:\:transfer\(\) should return Omnibank\\Model\\TransferResult but returns Omnibank\\Model\\TransferResult\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: Gateway.php
+
+		-
+			message: '#^Method Omnibank\\Model\\Account\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Model/Account.php
+
+		-
+			message: '#^Method Omnibank\\Model\\BankTransaction\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Model/BankTransaction.php
+
+		-
+			message: '#^Method Omnibank\\Model\\Connection\:\:fromArray\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Model/Connection.php
+
+		-
+			message: '#^Method Omnibank\\Model\\Connection\:\:withState\(\) has parameter \$state with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Model/Connection.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Omnibank\\Model\\Consent\:\:fromArray\(\) expects array\{status\?\: string, expires_at\?\: string\|null\}, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Model/Connection.php
+
+		-
+			message: '#^Parameter \#1 \$state of class Omnibank\\Model\\Connection constructor expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Model/Connection.php
+
+		-
+			message: '#^Offset int might not exist on ''''\|numeric\-string\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: Model/Money.php
+
+		-
+			message: '#^Method Omnibank\\Model\\Notification\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Model/Notification.php
+
+		-
+			message: '#^Method Omnibank\\Model\\Webhook\:\:__construct\(\) has parameter \$raw with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Model/Webhook.php
+
+		-
+			message: '#^Method Omnibank\\Request\\Connect\:\:getConnectResult\(\) should return Omnibank\\Model\\ConnectResult\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/Connect.php
+
+		-
+			message: '#^Method Omnibank\\Request\\FetchAccounts\:\:getAccounts\(\) should return list\<Omnibank\\Model\\Account\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/FetchAccounts.php
+
+		-
+			message: '#^Method Omnibank\\Request\\FetchBalances\:\:getBalances\(\) should return list\<Omnibank\\Model\\Balance\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/FetchBalances.php
+
+		-
+			message: '#^Method Omnibank\\Request\\FetchTransactions\:\:getTransactions\(\) should return list\<Omnibank\\Model\\BankTransaction\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/FetchTransactions.php
+
+		-
+			message: '#^Method Omnibank\\Request\\FetchWebhooks\:\:getWebhooks\(\) should return list\<Omnibank\\Model\\Webhook\> but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/FetchWebhooks.php
+
+		-
+			message: '#^Method Omnibank\\Request\\Notify\:\:getNotification\(\) should return Omnibank\\Model\\Notification\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/Notify.php
+
+		-
+			message: '#^Method Omnibank\\Request\\RegisterWebhook\:\:getWebhook\(\) should return Omnibank\\Model\\Webhook\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/RegisterWebhook.php
+
+		-
+			message: '#^Method Omnibank\\Request\\Transfer\:\:getTransferResult\(\) should return Omnibank\\Model\\TransferResult\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: Request/Transfer.php
+
+		-
+			message: '#^Cannot access offset ''account'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''accounts'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''balances'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''files'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''first'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''qonto'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Cannot access offset ''transactions'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Method Omnibank\\Tests\\BareTest\:\:framework\(\) should return list\<string\> but returns array\<mixed\>\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Method Omnibank\\Tests\\BareTest\:\:php\(\) should return array\{int, array\<string, mixed\>\} but returns array\{int, array\<mixed\>\}\.$#'
+			identifier: return.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Only iterables can be unpacked, mixed given\.$#'
+			identifier: arrayUnpacking.nonIterable
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_column expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_values expects array, array\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$report of static method Omnibank\\Tests\\BareTest\:\:framework\(\) expects array\{symbols\: list\<string\>, files\: list\<string\>\}, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#1 \$report of static method Omnibank\\Tests\\BareTest\:\:framework\(\) expects array\{symbols\: list\<string\>, files\: list\<string\>\}, non\-empty\-array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function array_filter expects \(callable\(mixed\)\: bool\)\|null, ''class_exists'' given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertContains\(\) expects iterable, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertCount\(\) expects Countable\|iterable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/BareTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$savings\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$treasury\.$#'
+			identifier: property.notFound
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:factories\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Call to an undefined method object\:\:names\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Cannot access offset ''savings'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Cannot access offset ''treasury'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Cannot access property \$connection on mixed\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Cannot call method connect\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Cannot call method get\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Method Omnibank\\Tests\\Bridge\\OmnibankBundleTest\:\:container\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Parameter \#1 \$extension of method Symfony\\Component\\DependencyInjection\\ContainerBuilder\:\:registerExtension\(\) expects Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface, Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertContains\(\) expects iterable, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Parameter \#2 \$values of method Symfony\\Component\\DependencyInjection\\ContainerBuilder\:\:loadFromExtension\(\) expects array\<string, mixed\>\|null, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/Bridge/OmnibankBundleTest.php
+
+		-
+			message: '#^Parameter \#1 \$data of static method Omnibank\\Model\\Connection\:\:fromArray\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/ModelTest.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/ModelTest.php
+
+		-
+			message: '#^Binary operation "\." between ''acc_'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: Tests/StubFactory.php
+
+		-
+			message: '#^Parameter \#1 \$token of class Omnibank\\Tests\\StubApi constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: Tests/StubFactory.php

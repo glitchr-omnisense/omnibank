@@ -11,6 +11,7 @@ use Omnibank\Model\Notification;
 use Omnibank\Model\Transfer;
 use Omnibank\Model\TransferResult;
 use Omnibank\Request\Request;
+use Omnisense\Contracts\Provider\ProviderInterface;
 
 /**
  * One bank access, configured - statement files, a bank's own API (Qonto) or
@@ -19,8 +20,11 @@ use Omnibank\Request\Request;
  * call; connect() gives it back updated. Each typed method is a shortcut for
  * execute() with its request; a provider that does not do something throws
  * RequestNotSupportedException, and supports() says so beforehand.
+ *
+ * It is an omnisense/contracts provider: capabilities() lists the operations
+ * it supports and its usage policy (Capabilities).
  */
-interface GatewayInterface
+interface GatewayInterface extends ProviderInterface
 {
     public function getName(): string;
 
@@ -28,6 +32,9 @@ interface GatewayInterface
 
     /** @param class-string<Request> $request */
     public function supports(string $request): bool;
+
+    /** The operations it supports, and the provider's usage policy. */
+    public function capabilities(): Capabilities;
 
     /**
      * @template T of Request

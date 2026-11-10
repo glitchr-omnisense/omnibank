@@ -2,6 +2,35 @@
 
 ## [Unreleased]
 
+### Changed
+
+- omnisense/omnibank is built on omnisense/contracts, the kernel of the omni families; the public
+  API is unchanged. `Config`, `Registry`, `GatewayFactory` and `Http\Redaction` are thin subclasses
+  of the kernel's (prefix `omnibank`); `GatewayInterface` extends its `ProviderInterface`
+  (`capabilities()`: the operations a gateway supports and its usage policy),
+  `GatewayFactoryInterface` its `ProviderFactoryInterface`; `OmnibankException` extends its
+  `ExceptionInterface`, `InvalidConfigException` its `InvalidConfigException` (still a
+  `LogicException`). `UnavailableException` is no longer final.
+- The Symfony bundle is the only class needing a framework: its components stay suggested, and
+  its file names them when they are missing. `Tests/LoadAllTest` (`Testing\BareTestCase`) loads
+  every other class with omnisense/contracts and the HTTP client contracts alone.
+
+### Added
+
+- Usage policies ([docs/policies.md](docs/policies.md)): a provider declares its `policy.json`
+  (`omnibank.policy`), a gateway gives it; `Registry::policy()`, `policies()`, `guard()` and
+  `guarded()` (the gateway behind its guard, a webhook never held; `get()` unguarded as before);
+  `policy` and `usage` beside a gateway's options; a shared `RateLimiterInterface` as the
+  registry's third argument; the bundle's `policy`, `usage` and `limiter`. A limit per user counts
+  per the provider's user the connection names (`omnibank.user_key`).
+- `Http\Throttle`: a provider's API client honours the waits it asks for - no call while one
+  lasts (`Exception\UsageLimitReachedException`, nothing sent), a 429 an
+  `Exception\RateLimitedException` (an `UnavailableException`, with `retryAfter`). Nothing retries a
+  call.
+- The harness mounts omnisense/contracts' checkout (`OMNISENSE_CONTRACTS`) and runs its tests, and
+  runs PHPStan at level max on every package (`phpstan`; `phpstan-baseline.neon` holds what was
+  there when PHPStan came in, 71 errors in the core, none on a line this change wrote).
+
 ### Documentation
 
 - `docs/usage-webhooks.md`: webhooks are optional - a scheduled read catches up everything they

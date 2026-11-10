@@ -1,7 +1,7 @@
 {
     "name": "omnisense/omnibank",
     "type": "library",
-    "description": "Omnibank: one contract for bank access - accounts, balances, transactions, transfers, consents and webhooks - over statement files and bank APIs, and its Symfony bundle (Omnitrade's sibling for banking).",
+    "description": "Omnibank: one contract for bank access - accounts, balances, transactions, transfers, consents and webhooks - over statement files and bank APIs, on omnisense/contracts (usage policies, the providers' waits honoured, nothing sent twice), under any PHP host; an optional Symfony bundle.",
     "keywords": [
         "bank",
         "open banking",
@@ -20,9 +20,11 @@
     ],
     "require": {
         "php": ">=8.2",
+        "omnisense/contracts": "^1.0@dev",
         "symfony/http-client-contracts": "^3.0"
     },
     "require-dev": {
+        "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^11.0",
         "symfony/config": "^6.4|^7.0|^8.0",
         "symfony/dependency-injection": "^6.4|^7.0|^8.0",
@@ -38,6 +40,7 @@
         "omnibank/qonto": "Qonto: accounts, balances and transactions with an API key",
         "omnibank/powens": "Powens (ex Budget Insight): bank aggregation through its Webview, webhooks",
         "omnibank/bridge": "Bridge (bridgeapi.io): bank aggregation through its Connect sessions, webhooks",
+        "phpunit/phpunit": "A provider's tests: Omnibank\\Testing\\BareTestCase, the check that a package loads with what it requires alone",
         "symfony/config": "In a Symfony application: the configuration of Omnibank\\Bridge\\Symfony\\OmnibankBundle",
         "symfony/dependency-injection": "In a Symfony application: the services of Omnibank\\Bridge\\Symfony\\OmnibankBundle",
         "symfony/http-kernel": "In a Symfony application: Omnibank\\Bridge\\Symfony\\OmnibankBundle itself"

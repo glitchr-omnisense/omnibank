@@ -85,6 +85,7 @@ others as "needs ...".
 | Variable | Gateway | |
 |---|---|---|
 | `OMNIBANK_PLUGINS` | - | the providers' checkouts (`../..` in the workspace); unset, they are cloned from GitHub, branch 1.x |
+| `OMNISENSE_CONTRACTS` | - | omnisense/contracts' checkout (`../../../omnisense-contracts` beside the family's folder), its tests run with the family's; unset, GitHub |
 | `HARNESS_RETURN_URL` | powens, bridge | the return URL (`redirect_uri`, `callback_url`); `https://example.org/bank/back` by default |
 | `FILES_DEBTOR_NAME`, `FILES_DEBTOR_BIC` | files | `debtor_name`, `debtor_bic` |
 | `QONTO_LOGIN`, `QONTO_SECRET_KEY` (needed), `QONTO_SANDBOX` (`1` for the sandbox), `QONTO_STAGING_TOKEN` | qonto | |
@@ -103,7 +104,8 @@ The console's errors: an `InvalidConfigException` exits 2 (`INVALID`), another `
 otherwise, with `symfony/console`, `symfony/http-client`, `symfony/var-dumper`, and PHPUnit 11 and
 Symfony's config, dependency-injection and http-kernel for the tests; one PHPUnit suite per
 package. Composer installs when there is no `vendor/` and updates when `composer.json` is newer
-than its lock. Then: `test [arguments]` (PHPUnit), `bare [...]`, `composer ...`, `sh`, `php ...` as
+than its lock. `/harness/packages/<slug>` links to each package. Then: `test [arguments]` (PHPUnit), `phpstan` (PHPStan at level max on
+every package with a `phpstan.neon`, over its `phpstan-baseline.neon`, which may only shrink), `bare [...]`, `composer ...`, `sh`, `php ...` as
 they are, anything else the console (`docker/harness/bin/omnibank`).
 
 The image (`omnisense/omnibank-harness`) is `php:8.4-cli-alpine` with the `bcmath`, `intl` and

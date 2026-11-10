@@ -50,12 +50,27 @@ omnibank:
         name:
             factory:              ~ # Required
             options:              []
+
+            # A tightening of the provider's usage policy, in omnisense/contracts' schema (never looser).
+            policy:               ~
+
+            # What the site is: {commercial: true, open_source: false, contract: true}.
+            usage:                ~
+
+    # A service implementing Omnisense\Contracts\Policy\RateLimiterInterface, shared by the processes; null: in memory.
+    limiter:              null
 ```
 
 | Key | Type | Default | |
 |---|---|---|---|
 | `gateways.<name>.factory` | string | required | a factory's name: `files`, `qonto`, `powens`, `bridge`, or an application factory's `getName()` |
 | `gateways.<name>.options` | any | `[]` | handed whole to the factory's `create()`; each provider's options are in [Configuration](configuration.md) |
+| `gateways.<name>.policy` | map | none | a tightening of the provider's [usage policy](policies.md) |
+| `gateways.<name>.usage` | map | none | what the site is: `commercial`, `open_source`, `contract` |
+| `limiter` | service id | `null` | a `RateLimiterInterface` shared by the processes; in memory otherwise |
+
+The bundle is the only class of the core that needs Symfony: `symfony/http-kernel`,
+`symfony/dependency-injection` and `symfony/config` are suggested, not required.
 
 ## What the bundle registers
 

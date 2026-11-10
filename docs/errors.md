@@ -66,6 +66,16 @@ The provider could not be reached or failed on its side: a transport error of th
 (network, DNS, timeout), an HTTP 5xx, a 429, or a body that is not JSON. **Nothing is known**: it
 is never "no accounts" nor "no transactions". Keep what was read before and try again later.
 
+A 429 is its subclass `RateLimitedException`, with `retryAfter` (seconds, when the provider
+said). Nothing retries it, and the provider's next calls wait as long:
+
+## `UsageLimitReachedException`
+
+A call refused before anything was sent: a rate limit of the provider's usage policy is reached
+(`Registry::guarded()`), or the provider asked to wait and the wait is not over. It is
+omnisense/contracts' `UsageLimitReached` and an `OmnibankException`, with `retryAfter`. See
+[Usage policies and rate limits](policies.md).
+
 ## No secret in a failure
 
 What a provider throws keeps the request's secrets out, for a log that writes the whole chain,

@@ -70,6 +70,7 @@ has been run against the real service or its sandbox yet ([Verified, and not](ve
 - Usage: [connecting and consent](usage-connecting.md), [accounts, balances and
   transactions](usage-reading.md), [transfers](usage-transfers.md), [webhooks](usage-webhooks.md).
 - [Configuration reference](configuration.md): the registry, the bundle, every provider's options.
+- [Usage policies and rate limits](policies.md): each provider's terms as data, the guard, a 429.
 - [Errors](errors.md): the exceptions, when each is thrown, what to catch.
 - [Testing](testing.md): testing an application that reads its banks with Omnibank.
 - [The Docker harness](harness.md): every provider installed, a console to call them.
