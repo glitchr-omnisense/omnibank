@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": ">=8.2",
-        "omnisense/contracts": "^1.0@dev",
+        "omnisense/contracts": "^1.0",
         "symfony/http-client-contracts": "^3.0"
     },
     "require-dev": {
@@ -57,6 +57,11 @@
     "autoload-dev": {
         "psr-4": {
             "Omnibank\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-1.x": "1.x-dev"
         }
     },
     "config": {

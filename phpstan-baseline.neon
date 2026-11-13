@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Call to function is_subclass_of\(\) with ''Omnibank\\\\Bridge\\\\BridgeGatewayFactory''\|''Omnibank\\\\Files\\\\FilesGatewayFactory''\|''Omnibank\\\\Powens\\\\PowensGatewayFactory''\|''Omnibank\\\\Qonto\\\\QontoGatewayFactory'' and ''Omnibank\\\\GatewayFactoryInterface'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: Bridge/Symfony/OmnibankBundle.php
-
-		-
 			message: '#^Method Omnibank\\Gateway\:\:connect\(\) should return Omnibank\\Model\\ConnectResult but returns Omnibank\\Model\\ConnectResult\|null\.$#'
 			identifier: return.type
 			count: 1

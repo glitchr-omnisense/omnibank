@@ -2,11 +2,27 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-13
+
+The first stable release: it installs with Composer's default minimum-stability (stable).
+
+### Release
+- Requires `omnisense/contracts` `^1.0`, a stable version, where it required `^1.0@dev`;
+  `extra.branch-alias` `dev-1.x` → `1.x-dev`.
+- CI: `.github/workflows/ci.yml` (glitchr-studio/ci's php-package.yml: the package installed alone,
+  PHPUnit, PHPStan against its baseline, a consumer install) and `release.yml` (that CI on the tag,
+  then glitchr-studio/ci's php-release.yml); `phpunit.xml.dist` runs the package's own tests.
+- A factory's HTTP client always goes through the kernel's `Http\NoRetry`: the `class_exists()`
+  fallback for an omnisense/contracts older than 1568f2c is gone (contracts 1.0 has it).
+- `phpstan.neon` accepts the bundle's provider classes as absent (the package installed alone, as
+  its own CI does) or known (the family's harness, every provider installed).
+- README: the first call reads a CSV statement given inline (no bank account, no network), and says
+  what each provider needs for a real call.
+
 ### Added
 
 - Writes sent once: the HTTP client a factory is given keeps its retries off (omnisense/contracts'
-  `Http\NoRetry`, which omnisense/contracts 1568f2c brings; with an older kernel the client is kept
-  as given), so Symfony's `RetryableHttpClient` (`framework.http_client`'s `retry_failed`) never
+  `Http\NoRetry`), so Symfony's `RetryableHttpClient` (`framework.http_client`'s `retry_failed`) never
   creates a Powens user or a Bridge connect session twice. A `MockHttpClient` is kept as given.
   docs/policies.md.
 

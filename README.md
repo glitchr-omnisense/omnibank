@@ -42,29 +42,39 @@ composer require omnisense/omnibank omnibank/files
 ```
 
 ```php
+<?php
+
 require __DIR__.'/vendor/autoload.php';
 
 use Omnibank\Files\FilesGatewayFactory;
 use Omnibank\Model\Connection;
 use Omnibank\Registry;
 
+// A bank's CSV export, read offline: no bank account to connect, no network.
+$csv = "Date;Libellé;Montant\n01/09/2026;LOYER SEPTEMBRE;-850,00\n05/09/2026;VIREMENT CLIENT;2 400,00\n";
+
 $registry = new Registry([new FilesGatewayFactory()], ['statements' => ['factory' => 'files']]);
 $gateway = $registry->get('statements');
+$connection = new Connection(['statements' => [['name' => 'export.csv', 'content' => $csv]]]);
 
-$connection = new Connection(['statements' => [['name' => 'releve.xml', 'content' => file_get_contents('releve.xml')]]]);
 foreach ($gateway->accounts($connection) as $account) {
     foreach ($gateway->transactions($connection, $account) as $transaction) {
-        echo $transaction->bookedOn->format('Y-m-d'), ' ', $transaction->amount->decimal(), ' ', $transaction->label, "\n";
+        echo $transaction->bookedOn->format('Y-m-d'), ' ', $transaction->amount->decimal(), ' ', $transaction->label, "\n";   // 2026-09-01 -850.00 LOYER SEPTEMBRE, then 2026-09-05 2400.00 VIREMENT CLIENT
     }
 }
 ```
 
-A provider that calls an API takes the HTTP client to call with - the application's, a
-`MockHttpClient` in a test - and makes its own when given none:
-`new Registry([new QontoGatewayFactory($http)], ['treasury' => ['factory' => 'qonto', 'options' => [...]]])`.
-A whole script that runs as it is, and the rest: [docs/installation.md](docs/installation.md).
-No class of a framework is loaded on the way: `Tests/BareTest.php` checks it in a process of its
-own, and so does `docker compose run --rm omnibank bare`.
+This first call needs no bank account: `omnibank/files` reads the statement files a bank exports
+(CAMT.053, OFX, CSV), offline. Reaching a bank live needs accounts: a Qonto business account and its
+API key for `omnibank/qonto`, an aggregator's client (Powens: a domain, client id and secret;
+Bridge: an application's client id and secret) for `omnibank/powens` and `omnibank/bridge`, and your
+users' consent at their bank. Each provider's README has a first call on recorded answers. A
+provider that calls an API takes the HTTP client to call with - the application's, a
+`MockHttpClient` in a test - and makes its own when given none: `new Registry([new
+QontoGatewayFactory($http)], ['treasury' => ['factory' => 'qonto', 'options' => [...]]])`. A whole
+script that runs as it is, and the rest: [docs/installation.md](docs/installation.md). No class of a
+framework is loaded on the way: `Tests/BareTest.php` checks it in a process of its own, and so does
+`docker compose run --rm omnibank bare`.
 
 ## The models
 

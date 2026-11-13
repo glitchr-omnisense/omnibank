@@ -98,8 +98,7 @@ asks for:
   its retries off (omnisense/contracts' `Http\NoRetry`): Symfony's `RetryableHttpClient`
   (`framework.http_client`'s `retry_failed`) would create a Powens user or a Bridge session again
   on a 429, 502 or 503, and resend reads that a provider counts. A test client (`MockHttpClient`)
-  is kept as given. It needs omnisense/contracts 1568f2c or later; with an older one the client is
-  kept as given.
+  is kept as given.
 
 ```php
 try {
