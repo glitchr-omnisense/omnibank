@@ -2,7 +2,7 @@
   "transactions": [
     {
       "id": "3b1e7a40-1c55-4f0e-9a0a-6a2d1b9f0e01",
-      "transaction_id": "nakaya-sas-1234-1-transaction-1042",
+      "transaction_id": "example-sas-1234-1-transaction-1042",
       "amount": 1250.0,
       "amount_cents": 125000,
       "settled_balance": 19682.17,
@@ -39,7 +39,7 @@
     },
     {
       "id": "3b1e7a40-1c55-4f0e-9a0a-6a2d1b9f0e02",
-      "transaction_id": "nakaya-sas-1234-1-transaction-1043",
+      "transaction_id": "example-sas-1234-1-transaction-1043",
       "amount": 23.4,
       "amount_cents": 2340,
       "side": "debit",

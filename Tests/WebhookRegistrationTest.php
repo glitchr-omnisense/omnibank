@@ -30,9 +30,9 @@ final class WebhookRegistrationTest extends TestCase
 
     public function testOnlyAPublicHttpsAddressIsReachable(): void
     {
-        self::assertNull(PublicUrl::unreachable('https://meyers-associee.fr/estate/payments/webhook'));
+        self::assertNull(PublicUrl::unreachable('https://sci-exemple.example.org/estate/payments/webhook'));
         self::assertNull(PublicUrl::unreachable('https://93.184.216.34/hook'));
-        foreach (['https://localhost:8463/hook', 'https://meyers.local/hook', 'https://site.test/hook', 'https://192.168.1.10/hook', 'https://10.0.0.2/hook', 'https://127.0.0.1/hook', 'https://web/hook', 'http://meyers-associee.fr/hook', '/hook'] as $url) {
+        foreach (['https://localhost:8463/hook', 'https://sci-exemple.local/hook', 'https://site.test/hook', 'https://192.168.1.10/hook', 'https://10.0.0.2/hook', 'https://127.0.0.1/hook', 'https://web/hook', 'http://sci-exemple.example.org/hook', '/hook'] as $url) {
             self::assertNotNull(PublicUrl::unreachable($url), $url);
         }
     }

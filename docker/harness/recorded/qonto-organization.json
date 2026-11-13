@@ -1,9 +1,9 @@
 {
   "organization": {
     "id": "0b8a3f4e-6f5a-4f39-9a51-3c1a2e0c7d11",
-    "name": "Nakaya",
-    "slug": "nakaya-sas-1234",
-    "legal_name": "NAKAYA SAS",
+    "name": "Atelier Exemple",
+    "slug": "example-sas-1234",
+    "legal_name": "ATELIER EXEMPLE SAS",
     "locale": "fr",
     "legal_share_capital": 10000,
     "legal_country": "FR",
@@ -16,7 +16,7 @@
     "bank_accounts": [
       {
         "id": "7d3c9c4e-2b1f-4a7e-8d61-0b5f1e2a9c01",
-        "slug": "nakaya-sas-1234-bank-account-1",
+        "slug": "example-sas-1234-bank-account-1",
         "iban": "FR5116958000011234567890142",
         "bic": "QNTOFRP1XXX",
         "currency": "EUR",
@@ -33,7 +33,7 @@
       },
       {
         "id": "a91e8f02-55c4-4d0e-b7a3-f2c6d8e41b72",
-        "slug": "nakaya-sas-1234-bank-account-2",
+        "slug": "example-sas-1234-bank-account-2",
         "iban": "FR7816958000011234567890238",
         "bic": "QNTOFRP1XXX",
         "currency": "EUR",

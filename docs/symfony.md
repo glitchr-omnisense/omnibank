@@ -24,7 +24,7 @@ return [
 # config/packages/omnibank.yaml
 omnibank:
     gateways:                      # by name: a factory and its options
-        statements: { factory: files, options: { debtor_name: 'Nakaya SAS', debtor_bic: AGRIFRPP882 } }
+        statements: { factory: files, options: { debtor_name: 'Atelier Exemple SAS', debtor_bic: TESTFRPPXXX } }
         treasury:   { factory: qonto, options: { login: '%env(QONTO_LOGIN)%', secret_key: '%env(QONTO_SECRET_KEY)%' } }
         banks:      { factory: powens, options: { domain: '%env(POWENS_DOMAIN)%', client_id: '%env(POWENS_CLIENT_ID)%', client_secret: '%env(POWENS_CLIENT_SECRET)%', webhook_secret: '%env(POWENS_WEBHOOK_SECRET)%' } }
 ```

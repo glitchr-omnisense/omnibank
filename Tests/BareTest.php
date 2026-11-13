@@ -45,7 +45,7 @@ final class BareTest extends TestCase
 
         self::assertSame(0, $status);
         self::assertSame(['connect', 'accounts', 'balances', 'transactions', 'transfer'], $report['gateways']['files']);
-        self::assertSame(['name' => 'Compte courant', 'iban' => 'FR7630006000011234567890189', 'bic' => 'AGRIFRPP882', 'currency' => 'EUR'], $report['statement']['account']);
+        self::assertSame(['name' => 'Compte courant', 'iban' => 'FR7630006000011234567890189', 'bic' => 'TESTFRPPXXX', 'currency' => 'EUR'], $report['statement']['account']);
         self::assertSame(['opening' => '10000.00', 'booked' => '5926.60', 'available' => '5926.60'], $report['statement']['balances']);
         self::assertSame(6, $report['statement']['transactions']);
         self::assertSame([], self::framework($report), 'no class nor file of a framework');

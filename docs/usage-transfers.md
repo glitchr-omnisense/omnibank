@@ -22,7 +22,7 @@ use Omnibank\Model\Connection;
 use Omnibank\Model\Money;
 use Omnibank\Model\Transfer;
 
-$gateway = (new FilesGatewayFactory())->create(['debtor_name' => 'Nakaya SAS', 'debtor_bic' => 'AGRIFRPP882']);
+$gateway = (new FilesGatewayFactory())->create(['debtor_name' => 'Atelier Exemple SAS', 'debtor_bic' => 'TESTFRPPXXX']);
 
 $result = $gateway->transfer(new Connection(), new Transfer(
     debtorIban: 'FR76 3000 6000 0112 3456 7890 189',
@@ -55,7 +55,7 @@ generated OMNIBANK-20261026092827-081B1D.xml
       <NbOfTxs>1</NbOfTxs>
       <CtrlSum>1250.00</CtrlSum>
       <InitgPty>
-        <Nm>Nakaya SAS</Nm>
+        <Nm>Atelier Exemple SAS</Nm>
       </InitgPty>
     </GrpHdr>
     <PmtInf>
@@ -71,7 +71,7 @@ generated OMNIBANK-20261026092827-081B1D.xml
       </PmtTpInf>
       <ReqdExctnDt>2026-10-30</ReqdExctnDt>
       <Dbtr>
-        <Nm>Nakaya SAS</Nm>
+        <Nm>Atelier Exemple SAS</Nm>
       </Dbtr>
       <DbtrAcct>
         <Id>
@@ -80,7 +80,7 @@ generated OMNIBANK-20261026092827-081B1D.xml
       </DbtrAcct>
       <DbtrAgt>
         <FinInstnId>
-          <BIC>AGRIFRPP882</BIC>
+          <BIC>TESTFRPPXXX</BIC>
         </FinInstnId>
       </DbtrAgt>
       <ChrgBr>SLEV</ChrgBr>
@@ -149,7 +149,7 @@ one file, one payment block per debtor account and date:
 ```php
 use Omnibank\Files\Pain001Writer;
 
-$xml = (new Pain001Writer('Nakaya SAS', 'AGRIFRPP882'))->write([$rent, $electricity, $salary], 'PAYROLL-2026-10');
+$xml = (new Pain001Writer('Atelier Exemple SAS', 'TESTFRPPXXX'))->write([$rent, $electricity, $salary], 'PAYROLL-2026-10');
 ```
 
 Each transfer then gets the end-to-end id `<message id, 29 characters>-<block>-<rank>` unless it

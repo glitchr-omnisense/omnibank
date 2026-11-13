@@ -55,7 +55,7 @@ Omnibank in bare PHP: the registry built by hand, no bundle, no container.
   qonto      connect accounts balances transactions
 
 omnibank/files, the CAMT.053 statement kept in recorded/ (no network):
-  Compte courant, FR7630006000011234567890189 (AGRIFRPP882), EUR - 1 account
+  Compte courant, FR7630006000011234567890189 (TESTFRPPXXX), EUR - 1 account
   balances: opening 10000.00, booked 5926.60, available 5926.60
   6 transactions, the first on 2026-09-02: 1250.00 EUR, Camille Durand, Facture F-2026-042
 

@@ -31,7 +31,7 @@ if (!class_exists(AbstractBundle::class)) {
  *
  *     omnibank:
  *         gateways:
- *             statements: { factory: files, options: { debtor_name: 'Nakaya SAS' } }
+ *             statements: { factory: files, options: { debtor_name: 'Atelier Exemple SAS' } }
  *             treasury:   { factory: qonto, options: { login: '%env(QONTO_LOGIN)%', secret_key: '%env(QONTO_SECRET_KEY)%' } }
  *
  *     public function __construct(GatewayInterface $treasury) {}

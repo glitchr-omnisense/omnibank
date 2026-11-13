@@ -2,7 +2,7 @@
   "transactions": [
     {
       "id": "3b1e7a40-1c55-4f0e-9a0a-6a2d1b9f0e03",
-      "transaction_id": "nakaya-sas-1234-1-transaction-1050",
+      "transaction_id": "example-sas-1234-1-transaction-1050",
       "amount": 5300.0,
       "amount_cents": 530000,
       "side": "debit",
